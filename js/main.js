@@ -1,7 +1,7 @@
 'use strict';
 
 
-var game = new Phaser.Game(900, 675, Phaser.AUTO, 'game', {preload: preload, create: create, update: update});
+var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game', {preload: preload, create: create, update: update});
 
 function preload() {
 
@@ -21,6 +21,7 @@ var cursors;
 var cats;
 var music;
 var jump;
+var world;
 var isDead = false;
 
 function create(){
@@ -112,7 +113,9 @@ function update(){
 
     }
     
-    game.world.wrap(player, 0, true);
+  game.world.wrap(player, 0, true);
+  //world = game.add.tileSprite(0, 0, 800, 600,'sky');
+  //world.fixedToCamera = true;
     
 
 }
