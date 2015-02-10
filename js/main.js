@@ -15,6 +15,7 @@ game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
 
 var player;
 var enemy;
+var keys = Phaser.Keyboard;
 var platforms;
 var cursors;
 var cats;
@@ -35,6 +36,8 @@ function create(){
     //The background
     game.add.sprite(0,0,'sky');
     
+    game.world.setBounds(0,0, 1400, 675);
+    
     //adding platforms and it's physics
     platforms = game.add.group();
     platforms.enableBody = true;
@@ -47,7 +50,11 @@ function create(){
     
     //Ledge time
     var ledge = platforms.create(450, 400, 'ground');
-    ledge = platforms.create(450, -150, 'ground');
+    ledge.body.immovable = true;
+
+    ledge = platforms.create(450, 150, 'ground');
+    ledge.body.immovable = true;
+
     ledge = platforms.create(300, 150, 'ground');
     ledge.body.immovable = true;
     
@@ -65,6 +72,9 @@ function create(){
     
     cursors = game.input.keyboard.createCursorKeys();
 
+    player.anchor.setTo(0.5,0.5);
+    game.camera.follow(player);
+//    lockOnFollow();
 
 }
 
@@ -75,12 +85,12 @@ function update(){
     
     player.body.velocity.x = 0;
 
-    if (cursors.left.isDown)
+    if (game.input.keyboard.isDown(keys.LEFT))
     {
 	player.body.velocity.x = -175;
 	player.animations.play('left');
     }
-    else if (cursors.right.isDown)
+    else if (game.input.keyboard.isDown(keys.RIGHT))
     {
 	player.body.velocity.x = 175;
 	player.animations.play('right');
@@ -101,5 +111,12 @@ function update(){
 
 
     }
+    
+    game.world.wrap(player, 0, true);
+    
 
+}
+
+function lockOnFollow() {
+    game.camera.follow(player, Phaser.Camera.FOLLOW_LOCKON);
 }
