@@ -6,10 +6,10 @@ var game = new Phaser.Game(900, 675, Phaser.AUTO, 'game', {preload: preload, cre
 function preload() {
 
 game.load.audio('music',['assets/audio/calvin_harris_school.mp3']);
-game.load.audio('jump',['assets/audio/mario_jump.mp3');
-game.load.image('sky',['assets/sky.png']);
-game.load.image('ground',['assets/platform.png']);    
-game.load.image('dude',['assets/dude.png']);
+game.load.audio('jump',['assets/audio/mario_jump.mp3']);
+game.load.image('sky', 'assets/sky.png');
+game.load.image('ground','assets/platform.png');    
+game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
 
 }
 
@@ -61,7 +61,9 @@ function create(){
     
     //Adding their animations
     player.animations.add('left', [0, 1, 2, 3], 10, true);
-    player.animations.add('right', [4, 5, 6, 7, 8], 10, true);
+    player.animations.add('right', [5, 6, 7, 8], 10, true);
+    
+    cursors = game.input.keyboard.createCursorKeys();
 
 
 }
@@ -75,10 +77,10 @@ function update(){
 
     if (cursors.left.isDown)
     {
-	player.body.velocirty.x = -175;
-	player.animations.player('left');
+	player.body.velocity.x = -175;
+	player.animations.play('left');
     }
-    else if
+    else if (cursors.right.isDown)
     {
 	player.body.velocity.x = 175;
 	player.animations.play('right');
