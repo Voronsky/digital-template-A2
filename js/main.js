@@ -13,7 +13,8 @@ game.load.image('ground','assets/platform.png');
 game.load.image('another-bg','assets/another_bg.png');    
 game.load.image('heart','assets/heart.png');
 game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
-game.load.spritesheet('cat', 'assets/Burgercat_main.png',32,40, 14);
+//game.load.spritesheet('cat', 'assets/Burgercat_main.png',32,40, 14);
+game.load.spritesheet('cat', 'assets/burgercat2.png', 36.5, 40,12);
 game.load.spritesheet('baddie', 'assets/baddie.png', 32,32);
 
 }
@@ -51,12 +52,7 @@ function create(){
     bgtile = game.add.tileSprite(0,0, 1340, 597, 'city');
     
     var bg2 = game.add.sprite(1340,-10, 'street');
-    //now to load the world parts
-    //var bg2 = game.add.tileSprite(1341,0, 675, 900, 'street');
-    //var bg3 = game.add.tileSprite(2005, -100, 1096, 750, 'another-bg');
-    
-    //game.world.setBounds(0,0, 3017, 600);
-    
+   
     //adding platforms and it's physics
     platforms = game.add.group();
     platforms.enableBody = true;
@@ -81,8 +77,8 @@ function create(){
     player.body.collideWorldBounds = true;
     
     //Adding their animations
-    player.animations.add('left', [5, 4, 3, 2, 1, 0], 10, true);
-    player.animations.add('right', [9, 10, 11, 12, 13], 10, true);
+    player.animations.add('left', [0, 1, 2, 3, 4, 5], 10, true);
+    player.animations.add('right', [6, 7, 8, 9, 10, 11, 12], 10, true);
    // player.animations.add('left', [0, 1, 2, 3], 10, true);
    // player.animations.add('right', [5, 6, 7, 8], 10, true);
     
@@ -101,7 +97,6 @@ function create(){
     scoreText = game.add.text(16, 16, 'Score: '+ score, { fontSize: '32px', fill: '#000'});
 
     
-   // cursors = game.input.keyboard.createCursorKeys();
 
    // player.anchor.setTo(0.5,0.5);
     game.camera.follow(player);
@@ -134,8 +129,7 @@ function update(){
     {
 	player.animations.stop();
 	
-//	player.frame = 4;
-	player.frame = 8;
+	player.frame = 6;
     }
     
     //Jump functions
@@ -154,25 +148,9 @@ function update(){
 	part2(platforms);
 	levelExist = true;
     }
-    /*if((score%20) == 0) 
-    {
-	
-	part2();
-    }*/
-    //partCheck(score, platforms);
-    //console.log("THIS IS THE CURRENT SCORE FAG: "+score);
-    /*if(updateScore()%20) {
-	part2();
-	}*/
-//  game.world.wrap(player, 0, true);
-  //world = game.add.tileSprite(0, 0, 800, 600,'sky');
-  //world.fixedToCamera = true;
-  //bgtile.tilePosition.x = -1;  
-   //game.time.events.loop(Phaser.Timer.SECOND, enemyMove, this); 
 
    enemies.forEach(function(enemy) {
     var x = Math.round(Math.random());
-//    game.world.forEach(enemy);
     if(x == 1)
     {
 	if(enemy.body.touching.down)
@@ -219,12 +197,6 @@ function part1(platforms) {
 function part2(platforms) {
 
     game.world.setBounds(0, 0, 2010, 597);
-    //var bg2 = game.add.sprite(1341,-100, 'street');
-    
-   // makePlayer();
- //   var platforms2 = game.add.group();
-//    platforms2.enableBody = true;
-
     var ledge = platforms.create(1100, 225, 'ground');
     ledge.body.immovable = true;
 
@@ -236,10 +208,6 @@ function part2(platforms) {
 }
 
 
-/*function makePlayer() {
-    player.kill();
-    player.reset(32, game.world.height - 150);
-}*/
 
 function randomHeight() {
     var width = 800;
@@ -263,34 +231,10 @@ function createEnemy() {
 	enemy.body.bounce.y = 0.2;
 	enemy.animations.add('left',[0,1],10,true);
 	enemy.animations.add('right',[2, 3], 10, true);
-	//game.world.forEach(enemy);
 	}
 }
 
-/*function enemyMove()
-{
-    var x = Math.round(Math.random());
-//    game.world.forEach(enemy);
-    if(x == 1)
-    {
-	if(enemy.body.touching.down)
-	{
-	    enemy.body.velocity.y = -455;
-	}
-	//enemy.animations.play('left');
-	enemy.body.velocity.x = -150;
-	
-    }
-    if(x == 0)
-    {
-	if(enemy.body.touching.down)
-	{
-	    enemy.body.velocity.y = -455;
-	}
-	//enemy.animations.play('right');
-	enemy.body.velocity.x = 150;
-    }
-}*/
+
 
 function collectHearts(player, hearts) {
     
