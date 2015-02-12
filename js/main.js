@@ -13,8 +13,8 @@ game.load.image('ground','assets/platform.png');
 game.load.image('another-bg','assets/another_bg.png');    
 game.load.image('heart','assets/heart.png');
 game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
-game.load.spritesheet('cat', 'assets/Burgercat_main.png',32,40, 18);
-game.load.spritesheet('baddie', 'assets/baddie.png', 32,40,4);
+game.load.spritesheet('cat', 'assets/Burgercat_main.png',32,40, 14);
+game.load.spritesheet('baddie', 'assets/baddie.png', 32,32);
 
 }
 
@@ -32,6 +32,7 @@ var enemy;
 var enemies;
 var scoreText;
 var score = 0;
+var levelExist = false;
 var isDead = false;
 var bgtile;
 
@@ -46,72 +47,50 @@ function create(){
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     //The background
-    //game.add.sprite(0, 0,'city');
     //Side scrolling background
     bgtile = game.add.tileSprite(0,0, 1340, 597, 'city');
-    var bg2 = game.add.tileSprite(1341,0, 675, 900, 'street');
-    var bg3 = game.add.tileSprite(2000, -100, 1096, 750, 'another-bg');
     
-    game.world.setBounds(0,0, 3017, 600);
+    var bg2 = game.add.sprite(1340,-10, 'street');
+    //now to load the world parts
+    //var bg2 = game.add.tileSprite(1341,0, 675, 900, 'street');
+    //var bg3 = game.add.tileSprite(2005, -100, 1096, 750, 'another-bg');
+    
+    //game.world.setBounds(0,0, 3017, 600);
     
     //adding platforms and it's physics
     platforms = game.add.group();
     platforms.enableBody = true;
    
-    var ground = platforms.create(0, game.world.height - 14, 'ground');
+    var ground = platforms.create(0, game.world.height - 10, 'ground');
 
     //Scale it to fit the game width and such
-    ground.scale.setTo(7,7);
+    ground.scale.setTo(8,8);
     ground.body.immovable = true;
     
     //Ledge time
-    var ledge = platforms.create(450, 400, 'ground');
-    ledge.body.immovable = true;
+   // makePlatforms();
+    part1(platforms);
 
-    ledge = platforms.create(650, 150, 'ground');
-    ledge.body.immovable = true;
-
-    ledge = platforms.create(300, 150, 'ground');
-    ledge.body.immovable = true;
-    ledge = platforms.create(850, 220, 'ground');
-    ledge.body.immovable = true;
-
-    ledge = platforms.create(900, 250, 'ground');
-    ledge.body.immovable = true;ledge = platforms.create(650, 150, 'ground');
-    ledge.body.immovable = true;
-
-    ledge = platforms.create(1100, 275, 'ground');
-    ledge.body.immovable = true;ledge = platforms.create(650, 150, 'ground');
-    ledge.body.immovable = true;
-
-    ledge = platforms.create(1400, 450, 'ground');
-    ledge.body.immovable = true;
-    ledge = platforms.create(1900, 450, 'ground');
-    ledge.body.immovable = true;
-    ledge = platforms.create(1750, 250, 'ground');
-    ledge.body.immovable = true;
-    ledge = platforms.create(2000, 150, 'ground');
-    ledge.body.immovable = true;
     //Making them players
-    player = game.add.sprite(32, game.world.height - 150, 'dude');
-    //player = game.add.sprite(32, game.world.height - 150, 'cat');
+ //   player = game.add.sprite(32, game.world.height - 150, 'dude');
+    player = game.add.sprite(32, game.world.height - 150, 'cat');
     game.physics.arcade.enable(player);
    
     player.body.bounce.y = 0.2;
     player.body.gravity.y  = 400;
-//    player.body.collideWorldBounds = true;
+    player.body.collideWorldBounds = true;
     
     //Adding their animations
-   // player.animations.add('left', [0, 1, 2, 3, 4, 5], 50, true);
-    //player.animations.add('right', [9, 10, 11, 12, 13], 50, true);
-    player.animations.add('left', [0, 1, 2, 3], 10, true);
-    player.animations.add('right', [5, 6, 7, 8], 10, true);
+    player.animations.add('left', [5, 4, 3, 2, 1, 0], 10, true);
+    player.animations.add('right', [9, 10, 11, 12, 13], 10, true);
+   // player.animations.add('left', [0, 1, 2, 3], 10, true);
+   // player.animations.add('right', [5, 6, 7, 8], 10, true);
     
     //Adding hearts
     hearts = game.add.group();
     hearts.enableBody = true;
 
-    game.time.events.repeat(Phaser.Timer.SECOND*10, 500, createHearts, this); 
+    game.time.events.repeat(Phaser.Timer.SECOND*2, 500, createHearts, this); 
     
 
     //Adding enmies
@@ -122,11 +101,11 @@ function create(){
     scoreText = game.add.text(16, 16, 'Score: '+ score, { fontSize: '32px', fill: '#000'});
 
     
-    cursors = game.input.keyboard.createCursorKeys();
+   // cursors = game.input.keyboard.createCursorKeys();
 
    // player.anchor.setTo(0.5,0.5);
     game.camera.follow(player);
-
+//   game.time.events.loop(Phaser.Timer.SECOND, enemyMove, this); 
 }
 
 function update(){
@@ -155,8 +134,8 @@ function update(){
     {
 	player.animations.stop();
 	
-	player.frame = 4;
-//	player.frame = 8;
+//	player.frame = 4;
+	player.frame = 8;
     }
     
     //Jump functions
@@ -169,17 +148,98 @@ function update(){
 
     }
     
-  game.world.wrap(player, 0, true);
+    if(score == 20 && levelExist == false) 
+    {
+
+	part2(platforms);
+	levelExist = true;
+    }
+    /*if((score%20) == 0) 
+    {
+	
+	part2();
+    }*/
+    //partCheck(score, platforms);
+    //console.log("THIS IS THE CURRENT SCORE FAG: "+score);
+    /*if(updateScore()%20) {
+	part2();
+	}*/
+//  game.world.wrap(player, 0, true);
   //world = game.add.tileSprite(0, 0, 800, 600,'sky');
   //world.fixedToCamera = true;
   //bgtile.tilePosition.x = -1;  
-    
+   //game.time.events.loop(Phaser.Timer.SECOND, enemyMove, this); 
 
+   enemies.forEach(function(enemy) {
+    var x = Math.round(Math.random());
+//    game.world.forEach(enemy);
+    if(x == 1)
+    {
+	if(enemy.body.touching.down)
+	{
+	    enemy.body.velocity.y = -400;
+	}
+	enemy.animations.play('left');
+	enemy.body.velocity.x = -150;
+	
+    }
+    if(x == 0)
+    {
+	if(enemy.body.touching.down)
+	{
+	    enemy.body.velocity.y = -400;
+	}
+	enemy.animations.play('right');
+	enemy.body.velocity.x = 150;
+    }
+   }, this);//enemies.forEach(enemyMove,game.physics, false, 200);
 }
 
 function lockOnFollow() {
     game.camera.follow(player, Phaser.Camera.FOLLOW_LOCKON);
 }
+
+function part1(platforms) {
+
+//    bgtile = game.add.tileSprite(0,0, 1340, 597, 'city');
+    game.world.setBounds(0,0, 1340, 597);
+
+    var ledge = platforms.create(350, 400, 'ground');
+    ledge.body.immovable = true;
+
+    ledge = platforms.create(650, 250, 'ground');
+    ledge.body.immovable = true;
+
+    ledge = platforms.create(200, 150, 'ground');
+    ledge.body.immovable = true;
+    
+
+}
+
+function part2(platforms) {
+
+    game.world.setBounds(0, 0, 2010, 597);
+    //var bg2 = game.add.sprite(1341,-100, 'street');
+    
+   // makePlayer();
+ //   var platforms2 = game.add.group();
+//    platforms2.enableBody = true;
+
+    var ledge = platforms.create(1100, 225, 'ground');
+    ledge.body.immovable = true;
+
+    ledge = platforms.create(1400, 195, 'ground');
+    ledge.body.immovable = true;
+
+    ledge = platforms.create(1900, 350, 'ground');
+    ledge.body.immovable = true;
+}
+
+
+/*function makePlayer() {
+    player.kill();
+    player.reset(32, game.world.height - 150);
+}*/
 
 function randomHeight() {
     var width = 800;
@@ -197,15 +257,40 @@ function createHearts() {
 function createEnemy() {
 
     for (var i=0; i<6; i++) {
-	enemy = enemies.create(120 * i, game.rnd.integerInRange(100, 600), 'baddie');
+	enemy = enemies.create(game.world.randomX, game.rnd.integerInRange(100, 600), 'baddie');
 	game.physics.arcade.enable(enemy);
 	enemy.body.gravity.y = 400;
 	enemy.body.bounce.y = 0.2;
-
+	enemy.animations.add('left',[0,1],10,true);
+	enemy.animations.add('right',[2, 3], 10, true);
+	//game.world.forEach(enemy);
 	}
-    //enemies.body.gravity.y = 400;
-    //enemies.body.bounce.y = 0.8;
 }
+
+/*function enemyMove()
+{
+    var x = Math.round(Math.random());
+//    game.world.forEach(enemy);
+    if(x == 1)
+    {
+	if(enemy.body.touching.down)
+	{
+	    enemy.body.velocity.y = -455;
+	}
+	//enemy.animations.play('left');
+	enemy.body.velocity.x = -150;
+	
+    }
+    if(x == 0)
+    {
+	if(enemy.body.touching.down)
+	{
+	    enemy.body.velocity.y = -455;
+	}
+	//enemy.animations.play('right');
+	enemy.body.velocity.x = 150;
+    }
+}*/
 
 function collectHearts(player, hearts) {
     
@@ -215,7 +300,8 @@ function collectHearts(player, hearts) {
 
 }
 
-function updateScore(score) {
 
+
+function updateScore(score) {
     scoreText.setText("Score: " + score);
 }
