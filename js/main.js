@@ -94,13 +94,13 @@ function create(){
     //enemies.enableBody = true;
     createEnemy();
     
-    scoreText = game.add.text(16, 16, 'Score: '+ score, { fontSize: '32px', fill: '#000'});
+    scoreText = game.add.text(16, 16, 'Hearts: '+ score, { fontSize: '32px', fill: '#000'});
 
     
 
    // player.anchor.setTo(0.5,0.5);
     game.camera.follow(player);
-//   game.time.events.loop(Phaser.Timer.SECOND, enemyMove, this); 
+   game.time.events.loop(Phaser.Timer.SECOND, enemyMove, this); 
 }
 
 function update(){
@@ -111,7 +111,7 @@ function update(){
 
     //adding overlap to trigger functions when they overlap
     game.physics.arcade.overlap(player, hearts, collectHearts, null, this);
-    
+    game.physics.arcade.overlap(player, enemies, playerKill, null, this);
     
     player.body.velocity.x = 0;
 
@@ -149,7 +149,7 @@ function update(){
 	levelExist = true;
     }
 
-   enemies.forEach(function(enemy) {
+  /* enemies.forEach(function(enemy) {
     var x = Math.round(Math.random());
     if(x == 1)
     {
@@ -170,7 +170,8 @@ function update(){
 	enemy.animations.play('right');
 	enemy.body.velocity.x = 150;
     }
-   }, this);//enemies.forEach(enemyMove,game.physics, false, 200);
+   }, this);*///enemies.forEach(enemyMove,game.physics, false, 200);
+    updateScore(score);
 }
 
 function lockOnFollow() {
@@ -231,8 +232,47 @@ function createEnemy() {
 	enemy.body.bounce.y = 0.2;
 	enemy.animations.add('left',[0,1],10,true);
 	enemy.animations.add('right',[2, 3], 10, true);
+	enemy.body.collideWorldBounds = true;
 	}
 }
+
+function playerKill(player, enemies) {
+
+    score-=1;
+    updateScore(parseInt(score));
+    if(score <= 0) 
+    {
+	//player.kill();
+	score = 0;
+	player.reset(32, game.world.height - 150);
+    }
+}
+
+function enemyMove ()
+    {
+	enemies.forEach(function(enemy) {
+    var x = Math.round(Math.random());
+    if(x == 1)
+    {
+	if(enemy.body.touching.down)
+	{
+	    enemy.body.velocity.y = -400;
+	}
+	enemy.animations.play('left');
+	enemy.body.velocity.x = -150;
+	
+    }
+	    if(x == 0)
+	    {
+	if(enemy.body.touching.down)
+	{
+	    enemy.body.velocity.y = -400;
+	}
+	enemy.animations.play('right');
+	enemy.body.velocity.x = 150;
+    }
+	}, this);
+    }
 
 
 
@@ -247,5 +287,5 @@ function collectHearts(player, hearts) {
 
 
 function updateScore(score) {
-    scoreText.setText("Score: " + score);
+    scoreText.setText("Hearts: " + score);
 }
