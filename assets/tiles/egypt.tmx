@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="60" height="50" tilewidth="48" tileheight="48" nextobjectid="24">
+ <tileset firstgid="1" name="tiles3" tilewidth="48" tileheight="48">
+  <image source="tiles3.png" trans="ffffff" width="560" height="640"/>
+ </tileset>
+ <tileset firstgid="144" name="door" tilewidth="68" tileheight="145">
+  <image source="../door.jpg" trans="ffffff" width="79" height="154"/>
+ </tileset>
+ <tileset firstgid="145" name="key" tilewidth="24" tileheight="48">
+  <image source="../key.png" trans="ffffff" width="24" height="48"/>
+ </tileset>
+ <tileset firstgid="146" name="artifact" tilewidth="28" tileheight="28">
+  <image source="../artifact.png" trans="ffffff" width="28" height="28"/>
+ </tileset>
+ <layer name="maze" width="60" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztmEGOwyAMRblQ99nn/nequkCyLBv/bwMJmvkSmg4B2w+wQ9sap8/h7S/pejqAzfrn5XRanlwtz3xiXcjynloHM7xs3f8IP9LX9WCbzaqZT+StvNcza7tCaAwRV+Y8PyEkBjRH2fP8hEYx/Pp1/L3P0+n7qznZ94yc/2be3p/ltc7Fm3m7MvcIa86beWVsLK9Xt3a8S5E1jcbIWD3e3XyjmFHe6HnUonN7A75YXeKv9dmbg6xXde1X5C+z73pO9XnE8TbeVfnPjmOUsYee42j+qbyV87FbFd5svCfzZmJn5rA1HbWXmZP1PZs3s9aMqr6Zscy9i4nd+z+KN+ObXRsmBsSeHBvNnbHeM3i1Hda3ZcP77QXltfxn9sOTvF+jzN7edl6LOZPzlv0Kb2e925jbi8GKyfs9McMr7d6iIfMs3aqh+zzK3+h7OCLLP8o7GqN52Tis/iqvt947eZl6V+Edna9dvEgez+CNavVKXt3PNM3u5UDFB9IQ3nvQn+H19mkHM8Ir+xmhNeACxlXlxRLt7QwfUpn3aEZv3d/suZR5E8WC5E5ra3lZm9qG7vfqeBRn5Xyt4rXuNOj+6r6RH1Yreb2649lbUcuZZ13WHdTzP7q/e2MqvEiuZ3nZ70jaBrImFbHrMYq1EpuVv7OZ0TOQ4WVis+ovcn9jVM0BK+ZKbp3WfrxfiDATqQ==
+  </data>
+ </layer>
+ <layer name="enemyBounds" width="60" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztl9EOgCAIRf15/7v54NaaZYnQhct5aq4JxyVQKckO6t8JGJO+sWHz7bB5X33rYC0ybL5JYg3b/WLyZXJtRPB96+DRddTP33h4nQMkvmywObP5Nrze41VYfBkczyD0rB1778xvdS/LecebrzRfBF/tGPXmWYpV7f4aR8tXY7+/48xAyaOjnQ+bLyLafQMNNt9VPPnWIu+PKL7Z82ITyXd27xBdpTXCs+/KrD6rq2jO0v+RL75371qeCUIstG9gF+n7vO4dBC+EHCxh8038cADnCjgd
+  </data>
+ </layer>
+ <objectgroup name="gate">
+  <object id="17" gid="144" x="1344" y="1200"/>
+ </objectgroup>
+ <objectgroup name="key">
+  <object id="22" gid="145" x="432" y="2160"/>
+ </objectgroup>
+ <objectgroup name="artifact">
+  <object id="23" gid="146" x="1056" y="1776"/>
+ </objectgroup>
+</map>
